@@ -1,12 +1,11 @@
-import React from "react";
 import { useRoutes } from "react-router-dom";
-import TestComponent from "../TestComponent";
+import Home from "./home";
 
 const Root = () => {
   return useRoutes([
     {
       path: "/",
-      element: <TestComponent />,
+      element: <Home />,
     },
   ]);
 };
