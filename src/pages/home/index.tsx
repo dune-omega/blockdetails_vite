@@ -1,7 +1,12 @@
-import React from "react";
+import GlobalHeader from "../../components/globalHeader";
+import "./index.module.scss";
 
 const Home = () => {
-  return <div>Home</div>;
+  return (
+    <>
+      <GlobalHeader />
+    </>
+  );
 };
 
 export default Home;
