@@ -1,8 +1,12 @@
-import React from "react";
-import s from "./index.module.scss";
+import GlobalHeader from "../../components/globalHeader";
+import "./index.module.scss";
 
 const Home = () => {
-  return <div className={s.test}>Home</div>;
+  return (
+    <>
+      <GlobalHeader />
+    </>
+  );
 };
 
 export default Home;
