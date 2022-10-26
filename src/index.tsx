@@ -1,8 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "./root.scss";
-import Root from "./pages/root";
 import { BrowserRouter } from "react-router-dom";
+import Root from "./pages/root";
+import "./root.scss";
+import "antd/dist/antd.min.css";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

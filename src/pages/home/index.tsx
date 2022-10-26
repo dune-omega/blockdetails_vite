@@ -4,7 +4,9 @@ import "./index.module.scss";
 const Home = () => {
   return (
     <>
-      <GlobalHeader />
+      <div style={{ display: "flex", gap: "1rem" }}>
+        <GlobalHeader />
+      </div>
     </>
   );
 };

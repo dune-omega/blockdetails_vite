@@ -1,13 +1,20 @@
 import { useRoutes } from "react-router-dom";
+import { GlobalContext } from "../context/GlobalContext";
 import Home from "./home";
 
 const Root = () => {
-  return useRoutes([
-    {
-      path: "/",
-      element: <Home />,
-    },
-  ]);
+  return (
+    <>
+      <GlobalContext>
+        {useRoutes([
+          {
+            path: "/",
+            element: <Home />,
+          },
+        ])}
+      </GlobalContext>
+    </>
+  );
 };
 
 export default Root;
