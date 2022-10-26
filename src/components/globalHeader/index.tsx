@@ -1,26 +1,49 @@
-import { Col, Row, Space } from "antd";
-import React from "react";
-import { API_GLOBAL, API_GLOBAL_DEFI } from "../../api/http";
-import { Global_Data } from "../../constants";
-import { useFetchAPIMultiple } from "../../hooks/useFetchAPIMultiple";
+import { Col, Select } from "antd";
+import { GlobalState } from "../../context/GlobalContext";
+
+const { Option } = Select;
 
 const GlobalHeader = () => {
-  const { data } = useFetchAPIMultiple([API_GLOBAL(), API_GLOBAL_DEFI()]);
-  let global: Global_Data = data[0]?.data;
-  let global_defi = data[1]?.data;
+  const { data } = GlobalState();
+  let global = data?.data;
+
+  const onChange = (value: string) => {
+    console.log(`selected ${value}`);
+  };
+
+  const onSearch = (value: string) => {
+    console.log("search:", value);
+  };
 
   return (
-    <Row>
+    <>
       <Col className="gutter-row">
         <span>Cryptos: </span> <span>{global?.active_cryptocurrencies}</span>
       </Col>
       <Col>
-        <span>Cryptos: </span> <span>{global?.active_cryptocurrencies}</span>
+        <span>Market Cap: </span> <span>{global?.total_market_cap?.usd}</span>
       </Col>
       <Col>
         <span>Cryptos: </span> <span>{global?.active_cryptocurrencies}</span>
       </Col>
-    </Row>
+      <Select
+        showSearch
+        onChange={onChange}
+        onSearch={onSearch}
+        filterOption={(input, option) =>
+          (option!.children as unknown as string)
+            .toLowerCase()
+            .includes(input.toLowerCase())
+        }
+        size="middle"
+        placeholder="Select a person"
+        style={{ width: 200 }}
+      >
+        <Option value="jack">Jack</Option>
+        <Option value="lucy">Lucy</Option>
+        <Option value="tom">Tom</Option>
+      </Select>
+    </>
   );
 };
 
