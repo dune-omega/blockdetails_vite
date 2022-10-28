@@ -1,11 +1,14 @@
 import { ProColumns, ProTable } from "@ant-design/pro-components";
+import { Typography } from "antd";
 import axios from "axios";
 import { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { API_COINS_LIST } from "../../api/http";
 import { symbol } from "../../constants";
 import { GlobalState } from "../../context/GlobalContext";
 import { useFetchAPISingle } from "../../hooks/useFetchAPISingle";
 import { TSymbol } from "../../types";
+import { formatMoney } from "../../utils";
 import "./index.module.scss";
 
 export type TTableCoin = {
@@ -39,20 +42,28 @@ const Home = () => {
           }}
         >
           <img src={record.image} width={20} />
-          <span>{record.name}</span>
+          <Typography.Link
+            onClick={() => navigate(`/cryptocurrency/${record.id}`)}
+          >
+            {record.name}
+          </Typography.Link>
         </div>
       ),
     },
     {
       title: "Price",
       render: (_, record) => (
-        <div>
-          <span>{symbol[currency as keyof TSymbol]}</span>
-          <span>{record.current_price}</span>
-        </div>
+        <span>
+          {formatMoney(
+            record.current_price,
+            symbol[currency as keyof TSymbol],
+            "0,00.00"
+          )}
+        </span>
       ),
     },
   ];
+  const navigate = useNavigate();
 
   const { data: coins } = useFetchAPISingle(
     API_COINS_LIST(currency, page, pageSize)
@@ -66,6 +77,9 @@ const Home = () => {
         columns={columns}
         dataSource={coins}
         actionRef={actionRef}
+        pagination={{
+          showSizeChanger: true,
+        }}
       />
     </>
   );
