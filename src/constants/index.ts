@@ -1,8 +1,13 @@
-export type Global_Data = {
-  active_cryptocurrencies: number;
-  market_cap_change_percentage_24h_usd: number;
-  market_cap_percentage: { btc: number; eth: number };
-  markets: number;
-  total_market_cap: { usd: number };
-  total_volume: { usd: number };
+import { TSymbol } from "../types";
+
+export const currencyArr = [
+  { name: "USD", value: "usd" },
+  { name: "PHP", value: "php" },
+  { name: "CNY", value: "cny" },
+];
+
+export const symbol: TSymbol = {
+  usd: "$",
+  php: "₱",
+  cny: "¥",
 };
