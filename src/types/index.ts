@@ -12,3 +12,9 @@ export type TGlobalData = {
   total_market_cap: TTotalMarketCap;
   total_volume: { usd: number };
 };
+
+export type TSymbol = {
+  usd: string;
+  php: string;
+  cny: string;
+};
