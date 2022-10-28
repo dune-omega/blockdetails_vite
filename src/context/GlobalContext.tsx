@@ -1,26 +1,73 @@
-import { createContext, useContext, useState } from "react";
-import { API_GLOBAL } from "../api/http";
+import { Select, Space } from "antd";
+import axios from "axios";
+import { createContext, useContext, useEffect, useState } from "react";
+import { API_COINS_LIST, API_GLOBAL } from "../api/http";
+import { currencyArr, symbol } from "../constants";
 import { useFetchAPISingle } from "../hooks/useFetchAPISingle";
-import { Context, TGlobalData } from "../types";
+import { Context, TGlobalData, TSymbol, TTotalMarketCap } from "../types";
 
 type IGlobalContext = {
-  data: {
-    data: TGlobalData;
-  };
   currency: string;
-  setCurrency: React.Dispatch<React.SetStateAction<string>>;
 };
 
 const GlobalData = createContext({} as IGlobalContext);
+
+const { Option } = Select;
 
 export const GlobalContext = ({ children }: Context) => {
   const { data } = useFetchAPISingle(API_GLOBAL());
   const [currency, setCurrency] = useState("usd");
 
+  let global = data?.data;
+
+  const changeSearchCurrency = (value: string) => {
+    setCurrency(value);
+  };
+
   return (
-    <GlobalData.Provider value={{ data, currency, setCurrency }}>
-      {children}
-    </GlobalData.Provider>
+    <>
+      <Space align="center">
+        <div>
+          <span>Cryptos: </span>
+          <span>{global?.active_cryptocurrencies || "-"}</span>
+        </div>
+        <div>
+          <span>Market Cap: </span>
+          <span>
+            {symbol[currency as keyof TSymbol]}
+            {global?.total_market_cap[currency as keyof TTotalMarketCap] || "-"}
+          </span>
+        </div>
+        <div>
+          <span>Volume: </span>
+          <span>
+            {symbol[currency as keyof TSymbol]}
+            {global?.total_volume[currency as keyof TTotalMarketCap] || "-"}
+          </span>
+        </div>
+      </Space>
+      <Select
+        showSearch
+        onChange={changeSearchCurrency}
+        onSearch={changeSearchCurrency}
+        filterOption={(input, option) =>
+          (option!.children as unknown as string)
+            .toLowerCase()
+            .includes(input.toLowerCase())
+        }
+        size="middle"
+        placeholder="Select a currency: "
+        style={{ width: 200 }}
+        defaultValue={"usd"}
+      >
+        {currencyArr.map((symbol) => (
+          <Option value={symbol.value} key={symbol.name}>
+            {symbol.name}
+          </Option>
+        ))}
+      </Select>
+      <GlobalData.Provider value={{ currency }}>{children}</GlobalData.Provider>
+    </>
   );
 };
 

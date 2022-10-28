@@ -1,12 +1,16 @@
 import { ProColumns, ProTable } from "@ant-design/pro-components";
-import { Space } from "antd";
+import axios from "axios";
 import { useRef, useState } from "react";
-import { API_COIN_LIST } from "../../api/http";
+import { API_COINS_LIST } from "../../api/http";
+import { symbol } from "../../constants";
 import { GlobalState } from "../../context/GlobalContext";
 import { useFetchAPISingle } from "../../hooks/useFetchAPISingle";
+import { TSymbol } from "../../types";
 import "./index.module.scss";
 
 export type TTableCoin = {
+  current_price: number;
+  id: string;
   image: string;
   name: string;
   market_cap_rank: number;
@@ -39,28 +43,29 @@ const Home = () => {
         </div>
       ),
     },
+    {
+      title: "Price",
+      render: (_, record) => (
+        <div>
+          <span>{symbol[currency as keyof TSymbol]}</span>
+          <span>{record.current_price}</span>
+        </div>
+      ),
+    },
   ];
 
   const { data: coins } = useFetchAPISingle(
-    API_COIN_LIST(currency, pageSize, page)
+    API_COINS_LIST(currency, page, pageSize)
   );
-
-  console.log(coins);
 
   return (
     <>
-      <ProTable
+      <ProTable<TTableCoin>
         search={false}
         options={false}
         columns={columns}
         dataSource={coins}
         actionRef={actionRef}
-        pagination={{
-          onChange: (page, pageSize) => {
-            setPage(page);
-            setPagesize(pageSize);
-          },
-        }}
       />
     </>
   );
