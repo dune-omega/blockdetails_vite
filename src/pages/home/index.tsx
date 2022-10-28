@@ -1,4 +1,3 @@
-import { GlobalState } from "../../context/GlobalContext";
 import "./index.module.scss";
 
 const Home = () => {
