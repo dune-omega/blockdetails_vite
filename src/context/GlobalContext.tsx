@@ -1,10 +1,9 @@
 import { Select, Space } from "antd";
-import axios from "axios";
-import { createContext, useContext, useEffect, useState } from "react";
-import { API_COINS_LIST, API_GLOBAL } from "../api/http";
+import { createContext, useContext, useState } from "react";
+import { API_GLOBAL } from "../api/http";
 import { currencyArr, symbol } from "../constants";
 import { useFetchAPISingle } from "../hooks/useFetchAPISingle";
-import { Context, TGlobalData, TSymbol, TTotalMarketCap } from "../types";
+import { Context, TSymbol, TTotalMarketCap } from "../types";
 
 type IGlobalContext = {
   currency: string;

@@ -1,6 +1,5 @@
 import { ProColumns, ProTable } from "@ant-design/pro-components";
 import { Typography } from "antd";
-import axios from "axios";
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { API_COINS_LIST } from "../../api/http";
@@ -41,7 +40,7 @@ const Home = () => {
             gap: 10,
           }}
         >
-          <img src={record.image} width={20} />
+          <img src={record.image} width={20} alt={record.name} />
           <Typography.Link
             onClick={() => navigate(`/cryptocurrency/${record.id}`)}
           >
