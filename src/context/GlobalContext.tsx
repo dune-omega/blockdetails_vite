@@ -1,10 +1,9 @@
-import { Select, Space } from "antd";
-import axios from "axios";
-import { createContext, useContext, useEffect, useState } from "react";
-import { API_COINS_LIST, API_GLOBAL } from "../api/http";
+import { Input, Select, Space } from "antd";
+import { createContext, useContext, useState } from "react";
+import { API_GLOBAL } from "../api/http";
 import { currencyArr, symbol } from "../constants";
 import { useFetchAPISingle } from "../hooks/useFetchAPISingle";
-import { Context, TGlobalData, TSymbol, TTotalMarketCap } from "../types";
+import { Context, TSymbol, TTotalMarketCap } from "../types";
 
 type IGlobalContext = {
   currency: string;
@@ -19,10 +18,6 @@ export const GlobalContext = ({ children }: Context) => {
   const [currency, setCurrency] = useState("usd");
 
   let global = data?.data;
-
-  const changeSearchCurrency = (value: string) => {
-    setCurrency(value);
-  };
 
   return (
     <>
@@ -45,27 +40,28 @@ export const GlobalContext = ({ children }: Context) => {
             {global?.total_volume[currency as keyof TTotalMarketCap] || "-"}
           </span>
         </div>
+        <Select
+          showSearch
+          onChange={(value) => setCurrency(value)}
+          onSearch={(value) => setCurrency(value)}
+          filterOption={(input, option) =>
+            (option!.children as unknown as string)
+              .toLowerCase()
+              .includes(input.toLowerCase())
+          }
+          size="middle"
+          placeholder="Select a currency: "
+          style={{ width: 200 }}
+          defaultValue={"usd"}
+        >
+          {currencyArr.map((symbol) => (
+            <Option value={symbol.value} key={symbol.name}>
+              {symbol.name}
+            </Option>
+          ))}
+        </Select>
+        <Input placeholder="Basic usage" />
       </Space>
-      <Select
-        showSearch
-        onChange={changeSearchCurrency}
-        onSearch={changeSearchCurrency}
-        filterOption={(input, option) =>
-          (option!.children as unknown as string)
-            .toLowerCase()
-            .includes(input.toLowerCase())
-        }
-        size="middle"
-        placeholder="Select a currency: "
-        style={{ width: 200 }}
-        defaultValue={"usd"}
-      >
-        {currencyArr.map((symbol) => (
-          <Option value={symbol.value} key={symbol.name}>
-            {symbol.name}
-          </Option>
-        ))}
-      </Select>
       <GlobalData.Provider value={{ currency }}>{children}</GlobalData.Provider>
     </>
   );
