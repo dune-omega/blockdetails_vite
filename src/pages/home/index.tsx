@@ -1,29 +1,22 @@
 import { ProColumns, ProTable } from "@ant-design/pro-components";
-import { Typography } from "antd";
-import axios from "axios";
+import { Select, Typography } from "antd";
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { API_COINS_LIST } from "../../api/http";
 import { symbol } from "../../constants";
 import { GlobalState } from "../../context/GlobalContext";
 import { useFetchAPISingle } from "../../hooks/useFetchAPISingle";
-import { TSymbol } from "../../types";
+import { TSymbol, TTableCoin } from "../../types";
 import { formatMoney } from "../../utils";
 import "./index.module.scss";
 
-export type TTableCoin = {
-  current_price: number;
-  id: string;
-  image: string;
-  name: string;
-  market_cap_rank: number;
-};
+const { Option } = Select;
 
 const Home = () => {
   const actionRef = useRef();
   const { currency } = GlobalState();
   const [page, setPage] = useState(1);
-  const [pageSize, setPagesize] = useState(100);
+  const [pageSize, setPagesize] = useState(20);
   const columns: ProColumns<TTableCoin>[] = [
     {
       title: "#",
@@ -32,6 +25,7 @@ const Home = () => {
     {
       title: "Name",
       dataIndex: "name",
+      key: "market_cap_rank",
       render: (_, record) => (
         <div
           style={{
@@ -41,7 +35,7 @@ const Home = () => {
             gap: 10,
           }}
         >
-          <img src={record.image} width={20} />
+          <img src={record.image} width={20} alt={record.name} />
           <Typography.Link
             onClick={() => navigate(`/cryptocurrency/${record.id}`)}
           >
@@ -62,6 +56,24 @@ const Home = () => {
         </span>
       ),
     },
+    {
+      title: "Circulating Supply",
+      render: (_, record) => formatMoney(record.circulating_supply, ""),
+    },
+    {
+      title: "Max Supply",
+      render: (_, record) => formatMoney(record.max_supply, ""),
+    },
+    {
+      title: "Volume",
+      align: "center",
+      render: (_, record) => formatMoney(record.total_volume, ""),
+    },
+    {
+      title: "Market Cap",
+      align: "center",
+      render: (_, record) => formatMoney(record.market_cap, ""),
+    },
   ];
   const navigate = useNavigate();
 
@@ -72,15 +84,28 @@ const Home = () => {
   return (
     <>
       <ProTable<TTableCoin>
+        rowKey={"id"}
         search={false}
         options={false}
         columns={columns}
         dataSource={coins}
         actionRef={actionRef}
-        pagination={{
-          showSizeChanger: true,
-        }}
+        pagination={false}
       />
+
+      <Select
+        onChange={(val) => setPagesize(val)}
+        size="middle"
+        style={{ width: 200 }}
+        defaultValue={pageSize}
+      >
+        <Option value={20}>20</Option>
+        <Option value={40}>40</Option>
+        <Option value={100}>100</Option>
+      </Select>
+
+      <button onClick={() => setPage(page - 1)}>prev</button>
+      <button onClick={() => setPage(page + 1)}>next</button>
     </>
   );
 };
