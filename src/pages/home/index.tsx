@@ -67,12 +67,12 @@ const Home = () => {
     {
       title: "Volume",
       align: "center",
-      render: (_, record) => formatMoney(record.total_volume, "", "0,00.00"),
+      render: (_, record) => formatMoney(record.total_volume, ""),
     },
     {
       title: "Market Cap",
       align: "center",
-      render: (_, record) => formatMoney(record.market_cap, "", "0,00.00"),
+      render: (_, record) => formatMoney(record.market_cap, ""),
     },
   ];
   const navigate = useNavigate();
