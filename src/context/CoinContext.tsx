@@ -1,13 +1,13 @@
-import { Col, Row } from "antd";
-import React from "react";
-import { useParams } from "react-router-dom";
+import { createContext, useContext } from "react";
 import { API_COIN } from "../api/http";
 import { useFetchAPISingle } from "../hooks/useFetchAPISingle";
+import { CoinContextParams, TCoinContext, TCoinData } from "../types";
 
-const Coin = () => {
-  const { id } = useParams();
+const CoinData = createContext({} as TCoinContext);
+
+export const CoinContext = ({ children, id }: CoinContextParams) => {
   const { data } = useFetchAPISingle(API_COIN(id as string));
-  const coin = {
+  const coin: TCoinData = {
     name: data?.name,
     id: data?.id,
     categories: data?.categories,
@@ -23,16 +23,7 @@ const Coin = () => {
     },
   };
 
-  console.log(coin);
-
-  return (
-    <>
-      <Row>
-        <Col span={8}>col-18 col-push-6</Col>
-        <Col span={16}>col-6 col-pull-18</Col>
-      </Row>
-    </>
-  );
+  return <CoinData.Provider value={{ coin }}>{children}</CoinData.Provider>;
 };
 
-export default Coin;
+export const CoinState = () => useContext(CoinData);

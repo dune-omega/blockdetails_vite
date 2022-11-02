@@ -1,32 +1,22 @@
 import { ProColumns, ProTable } from "@ant-design/pro-components";
-import { Typography } from "antd";
+import { Select, Typography } from "antd";
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { API_COINS_LIST } from "../../api/http";
 import { symbol } from "../../constants";
 import { GlobalState } from "../../context/GlobalContext";
 import { useFetchAPISingle } from "../../hooks/useFetchAPISingle";
-import { TSymbol } from "../../types";
+import { TSymbol, TTableCoin } from "../../types";
 import { formatMoney } from "../../utils";
 import "./index.module.scss";
 
-export type TTableCoin = {
-  current_price: number;
-  circulating_supply: number;
-  id: string;
-  image: string;
-  market_cap: number;
-  max_supply: number;
-  name: string;
-  market_cap_rank: number;
-  total_volume: number;
-};
+const { Option } = Select;
 
 const Home = () => {
   const actionRef = useRef();
   const { currency } = GlobalState();
   const [page, setPage] = useState(1);
-  const [pageSize, setPagesize] = useState(100);
+  const [pageSize, setPagesize] = useState(20);
   const columns: ProColumns<TTableCoin>[] = [
     {
       title: "#",
@@ -91,6 +81,10 @@ const Home = () => {
     API_COINS_LIST(currency, page, pageSize)
   );
 
+  const changeSearchCurrency = (value: number) => {
+    setPagesize(value);
+  };
+
   return (
     <>
       <ProTable<TTableCoin>
@@ -100,11 +94,22 @@ const Home = () => {
         columns={columns}
         dataSource={coins}
         actionRef={actionRef}
-        pagination={{
-          defaultPageSize: 10,
-          showSizeChanger: true,
-        }}
+        pagination={false}
       />
+
+      <Select
+        onChange={changeSearchCurrency}
+        size="middle"
+        style={{ width: 200 }}
+        defaultValue={pageSize}
+      >
+        <Option value={20}>20</Option>
+        <Option value={40}>40</Option>
+        <Option value={100}>100</Option>
+      </Select>
+
+      <button onClick={() => setPage(page - 1)}>prev</button>
+      <button onClick={() => setPage(page + 1)}>next</button>
     </>
   );
 };
