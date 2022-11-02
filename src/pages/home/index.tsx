@@ -81,10 +81,6 @@ const Home = () => {
     API_COINS_LIST(currency, page, pageSize)
   );
 
-  const changeSearchCurrency = (value: number) => {
-    setPagesize(value);
-  };
-
   return (
     <>
       <ProTable<TTableCoin>
@@ -98,7 +94,7 @@ const Home = () => {
       />
 
       <Select
-        onChange={changeSearchCurrency}
+        onChange={(val) => setPagesize(val)}
         size="middle"
         style={{ width: 200 }}
         defaultValue={pageSize}
