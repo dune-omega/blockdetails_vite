@@ -1,5 +1,5 @@
 import { ProColumns, ProTable } from "@ant-design/pro-components";
-import { Space, Typography } from "antd";
+import { Typography } from "antd";
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { API_COINS_LIST } from "../../api/http";
@@ -15,9 +15,11 @@ export type TTableCoin = {
   circulating_supply: number;
   id: string;
   image: string;
+  market_cap: number;
   max_supply: number;
   name: string;
   market_cap_rank: number;
+  total_volume: number;
 };
 
 const Home = () => {
@@ -28,13 +30,12 @@ const Home = () => {
   const columns: ProColumns<TTableCoin>[] = [
     {
       title: "#",
-      align: "center",
       dataIndex: "market_cap_rank",
     },
     {
       title: "Name",
-      align: "center",
       dataIndex: "name",
+      key: "market_cap_rank",
       render: (_, record) => (
         <div
           style={{
@@ -55,7 +56,6 @@ const Home = () => {
     },
     {
       title: "Price",
-      align: "center",
       render: (_, record) => (
         <span>
           {formatMoney(
@@ -67,19 +67,22 @@ const Home = () => {
       ),
     },
     {
-      title: (
-        <>
-          <div>Circulating Supply</div>
-          <div>Max Supply</div>
-        </>
-      ),
+      title: "Circulating Supply",
+      render: (_, record) => formatMoney(record.circulating_supply, ""),
+    },
+    {
+      title: "Max Supply",
+      render: (_, record) => formatMoney(record.max_supply, ""),
+    },
+    {
+      title: "Volume",
       align: "center",
-      render: (_, record) => (
-        <>
-          <div>{formatMoney(record.circulating_supply, "")}</div>
-          <div>{formatMoney(record.max_supply, "")} </div>
-        </>
-      ),
+      render: (_, record) => formatMoney(record.total_volume, "", "0,00.00"),
+    },
+    {
+      title: "Market Cap",
+      align: "center",
+      render: (_, record) => formatMoney(record.market_cap, "", "0,00.00"),
     },
   ];
   const navigate = useNavigate();
@@ -88,17 +91,17 @@ const Home = () => {
     API_COINS_LIST(currency, page, pageSize)
   );
 
-  console.log(coins);
-
   return (
     <>
       <ProTable<TTableCoin>
+        rowKey={"id"}
         search={false}
         options={false}
         columns={columns}
         dataSource={coins}
         actionRef={actionRef}
         pagination={{
+          defaultPageSize: 10,
           showSizeChanger: true,
         }}
       />

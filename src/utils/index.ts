@@ -12,5 +12,9 @@ export const formatMoney = (
   symbol: string = "$",
   format: string = "0,00"
 ) => {
-  return symbol + numeral(amount).format(format);
+  if (symbol) {
+    return symbol + numeral(amount).format(format);
+  } else {
+    return numeral(amount).format(format);
+  }
 };
