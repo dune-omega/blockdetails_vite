@@ -1,7 +1,6 @@
 {
   "name": "blockdetails_webpack",
   "version": "0.1.0",
-  "private": true,
   "dependencies": {
     "@ant-design/pro-components": "^2.3.27",
     "@testing-library/jest-dom": "^5.16.5",
