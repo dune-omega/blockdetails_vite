@@ -33,6 +33,12 @@ export type TSymbol = {
   cny: string;
 };
 
+export type TPrice = {
+  usd: number;
+  php: number;
+  cny: number;
+};
+
 export type TCoinData = {
   name: string;
   id: string;
@@ -42,11 +48,7 @@ export type TCoinData = {
   image: string;
   blockchain_site: string[];
   homepage: string[];
-  price: {
-    usd: number;
-    php: number;
-    cny: number;
-  };
+  price: TPrice;
 };
 
 export type TCoinContext = {
