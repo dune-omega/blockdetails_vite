@@ -1,5 +1,5 @@
 import { ProColumns, ProTable } from "@ant-design/pro-components";
-import { Typography } from "antd";
+import { Space, Typography } from "antd";
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { API_COINS_LIST } from "../../api/http";
@@ -12,8 +12,10 @@ import "./index.module.scss";
 
 export type TTableCoin = {
   current_price: number;
+  circulating_supply: number;
   id: string;
   image: string;
+  max_supply: number;
   name: string;
   market_cap_rank: number;
 };
@@ -26,10 +28,12 @@ const Home = () => {
   const columns: ProColumns<TTableCoin>[] = [
     {
       title: "#",
+      align: "center",
       dataIndex: "market_cap_rank",
     },
     {
       title: "Name",
+      align: "center",
       dataIndex: "name",
       render: (_, record) => (
         <div
@@ -51,6 +55,7 @@ const Home = () => {
     },
     {
       title: "Price",
+      align: "center",
       render: (_, record) => (
         <span>
           {formatMoney(
@@ -61,12 +66,29 @@ const Home = () => {
         </span>
       ),
     },
+    {
+      title: (
+        <>
+          <div>Circulating Supply</div>
+          <div>Max Supply</div>
+        </>
+      ),
+      align: "center",
+      render: (_, record) => (
+        <>
+          <div>{formatMoney(record.circulating_supply, "")}</div>
+          <div>{formatMoney(record.max_supply, "")} </div>
+        </>
+      ),
+    },
   ];
   const navigate = useNavigate();
 
   const { data: coins } = useFetchAPISingle(
     API_COINS_LIST(currency, page, pageSize)
   );
+
+  console.log(coins);
 
   return (
     <>

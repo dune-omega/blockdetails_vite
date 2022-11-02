@@ -10,7 +10,7 @@ import numeral from "numeral";
 export const formatMoney = (
   amount: number,
   symbol: string = "$",
-  format: string
+  format: string = "0,00"
 ) => {
   return symbol + numeral(amount).format(format);
 };
