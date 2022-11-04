@@ -6,24 +6,22 @@ import Home from "./home";
 
 const Root = () => {
   return (
-    <>
-      <GlobalContext>
-        {useRoutes([
-          {
-            path: "/",
-            element: <Home />,
-          },
-          {
-            path: "/cryptocurrency/:id",
-            element: <Coin />,
-          },
-          {
-            path: "*",
-            element: <Navigate to={"/"} />,
-          },
-        ])}
-      </GlobalContext>
-    </>
+    <GlobalContext>
+      {useRoutes([
+        {
+          path: "/",
+          element: <Home />,
+        },
+        {
+          path: "/cryptocurrency/:id",
+          element: <Coin />,
+        },
+        {
+          path: "*",
+          element: <Navigate to={"/"} />,
+        },
+      ])}
+    </GlobalContext>
   );
 };
 
