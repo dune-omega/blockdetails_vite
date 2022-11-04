@@ -1,8 +1,8 @@
 import { Col, Row } from "antd";
 import { useParams } from "react-router-dom";
+import CoinName from "../../components/coin/name";
+import CoinPrice from "../../components/coin/price";
 import { CoinContext } from "../../context/CoinContext";
-import CoinName from "./name";
-import CoinPrice from "./price";
 
 const Coin = () => {
   const { id } = useParams();

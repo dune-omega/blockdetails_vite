@@ -1,22 +1,21 @@
-import { ProColumns, ProTable } from "@ant-design/pro-components";
+import React, { useRef, useState } from "react";
+import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
+import { TSymbol, TTableCoin } from "../../types";
 import { Select, Typography } from "antd";
-import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { API_COINS_LIST } from "../../api/http";
+import { formatMoney } from "../../utils";
 import { symbol } from "../../constants";
 import { GlobalState } from "../../context/GlobalContext";
 import { useFetchAPISingle } from "../../hooks/useFetchAPISingle";
-import { TSymbol, TTableCoin } from "../../types";
-import { formatMoney } from "../../utils";
-import "./index.module.scss";
+import { API_COINS_LIST } from "../../api/http";
 
 const { Option } = Select;
 
 const Home = () => {
-  const actionRef = useRef();
   const { currency } = GlobalState();
   const [page, setPage] = useState(1);
   const [pageSize, setPagesize] = useState(20);
+  const actionRef = useRef<ActionType>();
   const columns: ProColumns<TTableCoin>[] = [
     {
       title: "#",
@@ -75,11 +74,12 @@ const Home = () => {
       render: (_, record) => formatMoney(record.market_cap, ""),
     },
   ];
-  const navigate = useNavigate();
-
   const { data: coins } = useFetchAPISingle(
     API_COINS_LIST(currency, page, pageSize)
   );
+  const navigate = useNavigate();
+
+  console.log(coins);
 
   return (
     <>

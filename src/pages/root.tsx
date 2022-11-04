@@ -1,6 +1,7 @@
+import React from "react";
 import { Navigate, useRoutes } from "react-router-dom";
-import Coin from "../components/Coin";
 import { GlobalContext } from "../context/GlobalContext";
+import Coin from "./coin";
 import Home from "./home";
 
 const Root = () => {

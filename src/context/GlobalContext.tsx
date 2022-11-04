@@ -41,16 +41,9 @@ export const GlobalContext = ({ children }: Context) => {
           </span>
         </div>
         <Select
-          showSearch
           onChange={(value) => setCurrency(value)}
-          onSearch={(value) => setCurrency(value)}
-          filterOption={(input, option) =>
-            (option!.children as unknown as string)
-              .toLowerCase()
-              .includes(input.toLowerCase())
-          }
           size="middle"
-          placeholder="Select a currency: "
+          placeholder="Select a currency:"
           style={{ width: 200 }}
           defaultValue={"usd"}
         >
