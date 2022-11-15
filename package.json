@@ -15,17 +15,17 @@
     "@types/react": "18.0.24",
     "@types/react-dom": "18.0.8",
     "antd": "4.24.0",
-    "axios": "^1.1.3",
-    "less": "^4.1.3",
-    "numeral": "^2.0.6",
+    "axios": "1.1.3",
+    "less": "4.1.3",
+    "numeral": "2.0.6",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-router-dom": "^6.4.3",
+    "react-router-dom": "6.4.3",
     "sass": "1.55.0",
     "typescript": "4.8.4"
   },
   "devDependencies": {
-    "@ant-design/pro-components": "^2.3.28",
+    "@ant-design/pro-components": "2.3.28",
     "@vitejs/plugin-react": "2.2.0",
     "vite": "3.2.2"
   }

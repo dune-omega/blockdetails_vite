@@ -1,8 +1,8 @@
+import "antd/dist/antd.min.css";
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "./main.scss";
 import { BrowserRouter } from "react-router-dom";
-import "antd/dist/antd.min.css";
+import "./main.scss";
 import Root from "./pages/root";
 
 const root = ReactDOM.createRoot(
